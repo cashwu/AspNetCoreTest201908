@@ -1,3 +1,4 @@
+using System.Data.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace AspNetCoreTest201908.Entity
@@ -10,5 +11,18 @@ namespace AspNetCoreTest201908.Entity
         }
 
         public DbSet<Profile> Profile { get; set; }
+        
+        public DbQuery<VProfile> VProfile { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Query<VProfile>()
+                        .ToView("V_Profile");
+        }
+    }
+
+    public class VProfile
+    {
+        public string Name { get; set; }
     }
 }

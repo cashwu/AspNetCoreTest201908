@@ -36,9 +36,9 @@ namespace UnitTests
 
             var lab05Controller = new Lab05Controller(appDbContext);
 
-            var result = (await lab05Controller.Index1()) as OkObjectResult;
+            var result = await lab05Controller.Index1();
 
-            result.Value.As<List<Profile>>().Should().BeEquivalentTo(expected);
+            result.Value.Should().BeEquivalentTo(expected);
         }
 
         [Fact]
@@ -91,9 +91,9 @@ namespace UnitTests
 
             var lab05Controller = new Lab05Controller(appDbContext);
 
-            var result = (await lab05Controller.Index1()) as OkObjectResult;
+            var result = (await lab05Controller.Index1()).Value;
 
-            result.Value.As<List<Profile>>().Should().BeEquivalentTo(expected);
+            result.Should().BeEquivalentTo(expected);
 
             appDbContext.Database.EnsureDeleted();
             appDbContext.Database.CloseConnection();

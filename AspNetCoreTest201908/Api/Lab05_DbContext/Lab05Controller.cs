@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AspNetCoreTest201908.Entity;
 using AspNetCoreTest201908.Model;
@@ -19,9 +20,10 @@ namespace AspNetCoreTest201908.Api.Lab05_DbContext
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index1()
+        public async Task<ActionResult<List<Profile>>> Index1()
         {
-            return Ok(await _dbContext.Profile.ToListAsync());
+            var list = await _dbContext.Profile.ToListAsync();
+            return list;
         }
 
         [HttpPost]
@@ -37,6 +39,13 @@ namespace AspNetCoreTest201908.Api.Lab05_DbContext
             await _dbContext.SaveChangesAsync();
 
             return Ok(profile);
+        }
+        
+        [HttpGet]
+        public async Task<ActionResult<List<VProfile>>> Index3()
+        {
+            var list = await _dbContext.VProfile.ToListAsync();
+            return Ok(list);
         }
     }
 }

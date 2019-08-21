@@ -9,7 +9,7 @@ namespace AspNetCoreTest201908.Api.Lab00
     {
         public IActionResult Index()
         {
-            return Ok(new AuthResult { IsAuth = true });
+            return Ok(new AuthResult { IsAuth = true, Name = "ABC" });
         }
     }
 }

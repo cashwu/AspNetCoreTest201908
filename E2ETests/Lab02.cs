@@ -8,26 +8,24 @@ using Xunit;
 
 namespace E2ETests
 {
-    public class Lab00 : TestBase<Startup>
+    public class Lab02 : TestBase<Startup>
     {
-        public Lab00(WebApplicationFactory<Startup> factory)
+        public Lab02(WebApplicationFactory<Startup> factory)
                 : base(factory)
         {
         }
 
         [Fact]
-        public async Task Test()
+        public async Task EnvConfigTest()
         {
             var httpClient = CreateHttpClient();
 
-            var response = await httpClient.GetAsync("/api/Lab00/Index");
+            var response = await httpClient.GetAsync("/api/Lab022/Index1");
 
             response.EnsureSuccessStatusCode();
 
-            var authResult = await response.Content.ReadAsAsync<AuthResult>();
-
-            authResult.IsAuth.Should().BeTrue();
-            authResult.Name.Should().Be("ABC");
+            var serverResult = await response.Content.ReadAsAsync<ServerResult>();
+            serverResult.Host.Should().Be("10.10.1.1");
         }
     }
 }
