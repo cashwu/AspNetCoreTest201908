@@ -1,6 +1,7 @@
 using AspNetCoreTest201908.Model;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 
 namespace AspNetCoreTest201908.Api.Lab03_IHostEnvironment
 {
@@ -8,9 +9,9 @@ namespace AspNetCoreTest201908.Api.Lab03_IHostEnvironment
     [Route("api/[controller]/[action]")]
     public class Lab03Controller : Controller
     {
-        private readonly IHostingEnvironment _environment;
+        private readonly IWebHostEnvironment _environment;
 
-        public Lab03Controller(IHostingEnvironment environment)
+        public Lab03Controller(IWebHostEnvironment environment)
         {
             _environment = environment;
         }

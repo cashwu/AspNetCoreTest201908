@@ -13,7 +13,7 @@ using Xunit;
 namespace E2ETests
 {
     public class TestBase<TStartup> : IClassFixture<WebApplicationFactory<TStartup>>
-            where TStartup : class
+        where TStartup : class
     {
         private readonly WebApplicationFactory<TStartup> _factory;
         protected WebApplicationFactory<TStartup> _webHost;
@@ -28,7 +28,7 @@ namespace E2ETests
             _webHost = _factory.WithWebHostBuilder(builder =>
             {
                 builder.UseEnvironment("Test");
-                
+
                 if (configuration != null)
                 {
                     builder.ConfigureTestServices(configuration);
@@ -36,12 +36,20 @@ namespace E2ETests
 
                 builder.ConfigureServices(services =>
                 {
+                    var descriptor = services.SingleOrDefault(r => r.ServiceType == typeof(DbContextOptions<AppDbContext>));
+
+                    if (descriptor != null)
+                    {
+                        services.Remove(descriptor);
+                    }
+
                     services.AddDbContext<AppDbContext>(options =>
                     {
                         options.UseSqlite("DataSource=testdb");
                     });
 
                     var sp = services.BuildServiceProvider();
+
                     using (var scope = sp.CreateScope())
                     {
                         var scopeServiceProvider = scope.ServiceProvider;
@@ -50,7 +58,7 @@ namespace E2ETests
                         appDbContext.Database.EnsureDeleted();
                         appDbContext.Database.EnsureCreated();
 
-                        appDbContext.Database.ExecuteSqlCommand(@"
+                        appDbContext.Database.ExecuteSqlRaw(@"
                             create view V_Profile
                                 as
                             select Name from Profile");
@@ -65,10 +73,10 @@ namespace E2ETests
         {
             Operator(action);
         }
-        
+
         protected void Operator<T>(Action<T> action)
         {
-            using (var scope = _webHost.Server.Host.Services.CreateScope())
+            using (var scope = _webHost.Server.Services.CreateScope())
             {
                 var t = scope.ServiceProvider.GetRequiredService<T>();
                 action.Invoke(t);

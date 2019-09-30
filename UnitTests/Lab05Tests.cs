@@ -69,66 +69,66 @@ namespace UnitTests
         [Fact]
         public async Task Db03()
         {
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                          .UseSqlite("DataSource=:memory:")
-                          .Options;
-
-            AppDbContext appDbContext = new AppDbContext(options);
-
-            appDbContext.Database.OpenConnection();
-            appDbContext.Database.EnsureCreated();
-
-            var expected = new List<Profile>
-            {
-                new Profile
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "cash"
-                }
-            };
-            appDbContext.Profile.AddRange(expected);
-            appDbContext.SaveChanges();
-
-            var lab05Controller = new Lab05Controller(appDbContext);
-
-            var result = (await lab05Controller.Index1()).Value;
-
-            result.Should().BeEquivalentTo(expected);
-
-            appDbContext.Database.EnsureDeleted();
-            appDbContext.Database.CloseConnection();
+//            var options = new DbContextOptionsBuilder<AppDbContext>()
+//                          .UseSqlite("DataSource=:memory:")
+//                          .Options;
+//
+//            AppDbContext appDbContext = new AppDbContext(options);
+//
+//            appDbContext.Database.OpenConnection();
+//            appDbContext.Database.EnsureCreated();
+//
+//            var expected = new List<Profile>
+//            {
+//                new Profile
+//                {
+//                    Id = Guid.NewGuid(),
+//                    Name = "cash"
+//                }
+//            };
+//            appDbContext.Profile.AddRange(expected);
+//            appDbContext.SaveChanges();
+//
+//            var lab05Controller = new Lab05Controller(appDbContext);
+//
+//            var result = (await lab05Controller.Index1()).Value;
+//
+//            result.Should().BeEquivalentTo(expected);
+//
+//            appDbContext.Database.EnsureDeleted();
+//            appDbContext.Database.CloseConnection();
         }
 
         [Fact]
         public async Task Db04()
         {
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                          .UseSqlite("DataSource=:memory:")
-                          .Options;
-
-            AppDbContext appDbContext = new AppDbContext(options);
-
-            appDbContext.Database.OpenConnection();
-            appDbContext.Database.EnsureCreated();
-
-            var lab05Controller = new Lab05Controller(appDbContext);
-
-            var profileDto = new ProfileDto
-            {
-                Name = "cash"
-            };
-            var result = (await lab05Controller.Index2(profileDto)) as OkObjectResult;
-
-            var profile = result.Value.As<Profile>();
-            profile.Id.Should().NotBeEmpty();
-            profile.Name.Should().Be("cash");
-
-            var dbProfile = appDbContext.Profile.First();
-            dbProfile.Id.Should().NotBeEmpty();
-            dbProfile.Name.Should().Be("cash");
-
-            appDbContext.Database.EnsureDeleted();
-            appDbContext.Database.CloseConnection();
+//            var options = new DbContextOptionsBuilder<AppDbContext>()
+//                          .UseSqlite("DataSource=:memory:")
+//                          .Options;
+//
+//            AppDbContext appDbContext = new AppDbContext(options);
+//
+//            appDbContext.Database.OpenConnection();
+//            appDbContext.Database.EnsureCreated();
+//
+//            var lab05Controller = new Lab05Controller(appDbContext);
+//
+//            var profileDto = new ProfileDto
+//            {
+//                Name = "cash"
+//            };
+//            var result = (await lab05Controller.Index2(profileDto)) as OkObjectResult;
+//
+//            var profile = result.Value.As<Profile>();
+//            profile.Id.Should().NotBeEmpty();
+//            profile.Name.Should().Be("cash");
+//
+//            var dbProfile = appDbContext.Profile.First();
+//            dbProfile.Id.Should().NotBeEmpty();
+//            dbProfile.Name.Should().Be("cash");
+//
+//            appDbContext.Database.EnsureDeleted();
+//            appDbContext.Database.CloseConnection();
         }
     }
 }

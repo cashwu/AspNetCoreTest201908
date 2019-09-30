@@ -12,11 +12,12 @@ namespace AspNetCoreTest201908.Entity
 
         public DbSet<Profile> Profile { get; set; }
         
-        public DbQuery<VProfile> VProfile { get; set; }
+        public DbSet<VProfile> VProfile { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Query<VProfile>()
+            modelBuilder.Entity<VProfile>()
+                        .HasNoKey()
                         .ToView("V_Profile");
         }
     }

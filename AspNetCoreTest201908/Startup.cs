@@ -20,7 +20,10 @@ namespace AspNetCoreTest201908
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(options =>
+            {
+                options.EnableEndpointRouting = false;
+            });
             
             //Lab05
             services.AddDbContext<AppDbContext>(options =>
@@ -43,7 +46,7 @@ namespace AspNetCoreTest201908
             services.AddHttpClient();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseStaticFiles();
 
